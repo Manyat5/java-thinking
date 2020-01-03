@@ -1,0 +1,12 @@
+ Either the current thread is already interrupted, so begin() closed the channel, or another thread closed the channel since we checked it a few bytecodes ago.
+ In either case the value returned here is irrelevant since the invocation of end() in the finally block will throw an appropriate exception.
+ 要么当前线程已经中断，因此begin()关闭通道，要么另一个线程关闭通道，因为我们在几个字节码之前检查过它。
+ 无论哪种情况，这里返回的值都是无关的，因为在finally块中调用end()将抛出适当的异常。
+
+Between the previous test of isOpen() and the return of the IOUtil.read invocation below, this channel might be closed or this thread might be interrupted.
+ We rely upon the implicit synchronization point in the kernel read() call to make sure that the right thing happens.
+ In either case the implCloseSelectableChannel method is ultimately invoked in  some other thread, so there are three possibilities:
+ 在之前的isOpen()测试和IOUtil返回之间。
+ 下面的读调用，这个通道可能被关闭，或者这个线程可能被中断。
+ 我们依靠内核read()调用中的隐式同步点来确保发生正确的事情。
+ 无论哪种情况，implCloseSelectableChannel方法最终都会在其他线程中调用，所以有三种可能性:
